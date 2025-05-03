@@ -36,9 +36,9 @@ const About = () => {
               </p>
             </div>
             
-            {/* Image side */}
-            <div className="md:w-[38%]">
-              <div className="h-full w-full bg-gray-200 flex items-center justify-center">
+            {/* Image side - Adjusted to align vertically centered with padding-top */}
+            <div className="md:w-[38%] md:flex md:flex-col md:justify-center">
+              <div className="h-full w-full bg-gray-200 flex items-center justify-center pt-12 md:pt-0">
                 {/* Replace with your actual image */}
                 <img 
                   src="/images/Legal_picture.jpeg" 
