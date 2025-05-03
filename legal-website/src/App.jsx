@@ -6,6 +6,7 @@ import About from './components/About';
 import Expertise from './components/Expertise';
 import Clients from './components/Clients';
 import Contact from './components/Contact';
+import AllClients from './components/AllClients';
 import ClientCarousel from './components/ClientCarousel';
 import ClientTestimonials from './components/ClientTestimonials';
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/expertise" element={<Expertise />} />
           <Route path="/clients" element={<Clients />} />
+          <Route path="/all-clients" element={<AllClients />} />
           {/* <Route path="/ClientCarousel" element={<ClientCarousel />} />
           <Route path="/ClientTestimonials" element={<ClientTestimonials />} /> */}
           <Route path="/contact" element={<Contact />} />

@@ -2,7 +2,6 @@ import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import imageee from '../../public/images/imageee.png';
 // Import a mobile-specific image if you have one
-import mobileImage from '../../public/images/mobileimage.png';
 
 const Home = () => {
   return (
