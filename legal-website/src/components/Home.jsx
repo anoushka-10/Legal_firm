@@ -6,8 +6,8 @@ import mobileImage from '../../public/images/mobileimage.png';
 
 const Home = () => {
   return (
-    <div className="w-full min-h-screen flex flex-col justify-between relative overflow-hidden bg-black">
-  {/* Background Image using <img> with object-contain */}
+    <div className="w-full min-h-screen flex flex-col justify-between relative overflow-hidden bg-[#dededd]">
+    {/* Background Image using <img> with object-contain */}
   <img 
   src={imageee} 
   alt="Background" 
