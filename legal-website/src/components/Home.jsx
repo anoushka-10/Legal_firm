@@ -11,7 +11,7 @@ const Home = () => {
   <img 
   src={imageee} 
   alt="Background" 
-  className="absolute inset-0 w-full h-full object-contain sm:object-cover sm:object-[center_35%] z-0"
+  className="absolute inset-0 w-full h-full object-contain sm:object-cover sm:object-[center_35%]  z-0 bg-[#DBD8D4]"
 />
 
 
