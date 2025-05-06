@@ -1,41 +1,40 @@
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import imageee from '../../public/images/imageee.png';
-// Import a mobile-specific image if you have one
+import phoneviewHome from '../../public/images/phoneviewHome.png'
 
 const Home = () => {
   return (
     <div className="w-full min-h-screen flex flex-col justify-between relative overflow-hidden bg-[#dededd]">
-    {/* Background Image using <img> with object-contain */}
-  <img 
-  src={imageee} 
-  alt="Background" 
-  className="absolute inset-0 w-full h-full object-contain sm:object-cover sm:object-[center_35%]  z-0 bg-[#DBD8D4]"
-/>
-
-
-
-  {/* Content */}
-  <div className="relative z-10 flex-grow flex flex-col justify-end">
-    <div
-      className="w-full py-8 flex flex-col items-center justify-center space-y-4 bg-[rgba(139,69,19,0.6)]"
-    >
-      <div className="text-yellow-400 text-5xl md:text-7xl">⚖️</div>
-      <button className="border border-white text-white text-base md:text-lg px-6 md:px-10 py-3 md:py-4 hover:bg-yellow-400 hover:text-black transition-colors">
-        REQUEST A CALL
-      </button>
+      <div className="absolute inset-0 w-full h-full bg-[#DBD8D4]">
+        <div className="absolute inset-0 flex items-start w-full h-full md:hidden">
+          <img 
+            src={phoneviewHome} 
+            alt="Mobile Background" 
+            className="object-cover object-top w-full"
+          />
+        </div>
+        
+        <img 
+          src={imageee} 
+          alt="Desktop Background" 
+          className="hidden w-full h-full object-cover object-[center_35%] md:block"
+        />
+      </div>
+      <div className="relative z-10 flex flex-col justify-end flex-grow">
+        <div className="w-full py-12 md:py-7 lg:py-2 flex flex-col items-center justify-center space-y-6 md:space-y-8 bg-[rgba(139,69,19,0.6)]">
+          <div className="text-6xl text-yellow-400 md:text-6xl lg:text-8xl">⚖️</div>
+          <button className="px-8 py-4 text-lg text-white transition-colors border-2 border-white md:px-12 md:py-5 md:text-xl lg:text-2xl hover:bg-yellow-400 hover:text-black">
+            REQUEST A CALL
+          </button>
+        </div>
+      </div>
+      <div className="absolute z-20 flex justify-center w-full bottom-8 md:bottom-12 animate-bounce">
+        <a href="#about">
+          <ChevronRight className="w-8 h-8 text-yellow-400 transform rotate-90 md:w-10 md:h-10" />
+        </a>
+      </div>
     </div>
-  </div>
-
-  {/* Scroll Icon */}
-  <div className="absolute bottom-4 w-full flex justify-center animate-bounce z-20">
-    <a href="#about">
-      <ChevronRight className="transform rotate-90 text-yellow-400 w-6 h-6 md:w-8 md:h-8" />
-    </a>
-  </div>
-</div>
-
-  
   );
 };
 
