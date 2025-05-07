@@ -35,207 +35,179 @@ const Clients = () => {
     }
   ];
 
-  // Expanded list of client logos with "See More" added
   const clientLogos = [
-    "client1", "client2", "client3", "client4", "client5", 
-    "client6", "client7", "client8", "see-more"
+    "client1", "client2", "client3", "client4", 
+    "client5", "client6", "client7", "client8"
   ];
   
-  // Simple carousel state
+  // Carousel state
   const [currentIndex, setCurrentIndex] = useState(0);
   const logosPerSlide = 4;
   const totalSlides = Math.ceil(clientLogos.length / logosPerSlide);
   
-  // Auto-scroll with boundary check to prevent looping back automatically
+  // Auto-scroll with looping
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        // Only increment if not at the last slide
-        if (prevIndex < totalSlides - 1) {
-          return prevIndex + 1;
-        }
-        return prevIndex; // Stay on last slide
-      });
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
     }, 7000);
     
     return () => clearInterval(interval);
   }, [totalSlides]);
   
-  // Navigation functions with boundary checks
+  // Navigation functions with looping
   const goToNextSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex < totalSlides - 1 ? prevIndex + 1 : prevIndex
-    );
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
   };
   
   const goToPrevSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex > 0 ? prevIndex - 1 : prevIndex
-    );
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalSlides) % totalSlides);
   };
 
   return (
-    <section className="py-16 bg-white pt-32">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-amber-900 mb-4">Client Testimonials</h2>
-          <div className="w-20 h-1 bg-amber-600 mx-auto mb-6"></div>
-          <p className="text-gray-700 max-w-2xl mx-auto">
+    <section className="py-16 pt-32 bg-white">
+      <div className="container px-4 mx-auto">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl text-amber-900">Client Testimonials</h2>
+          <div className="w-20 h-1 mx-auto mb-6 bg-amber-600"></div>
+          <p className="max-w-2xl mx-auto text-gray-700">
             Our clients' success is our success. Here's what some of them have to say about our services.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {clients.map((client, index) => (
             <div 
               key={index} 
-              className="bg-white p-8 shadow-md relative transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+              className="relative p-8 transition-transform duration-300 bg-white shadow-md hover:scale-105 hover:shadow-lg"
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-amber-600"></div>
-              <div className="text-amber-500 text-4xl font-serif mb-4">"</div>
-              <p className="text-gray-700 mb-6 italic">{client.testimonial}</p>
+              <div className="mb-4 font-serif text-4xl text-amber-500">"</div>
+              <p className="mb-6 italic text-gray-700">{client.testimonial}</p>
               <div className="mt-auto">
-                <h4 className="text-amber-900 font-semibold">{client.name}</h4>
-                <p className="text-amber-700 text-sm">{client.position}</p>
+                <h4 className="font-semibold text-amber-900">{client.name}</h4>
+                <p className="text-sm text-amber-700">{client.position}</p>
               </div>
             </div>
           ))}
         </div>
         
-        {/* Client logos section with improved carousel */}
         <div className="mt-20">
-          <div className="text-center mb-10">
-            {/* Updated font size to match the testimonials section */}
-            <h3 className="text-3xl md:text-4xl font-bold text-amber-900 mb-4">Our Clients</h3>
-            <div className="w-20 h-1 bg-amber-600 mx-auto mb-6"></div>
-            <p className="text-gray-700 max-w-2xl mx-auto">
-              We are proud to serve a diverse clientele across various industries.
-            </p>
-          </div>
+        <div className="mb-10 text-center">
+          <h3 className="mb-4 text-3xl font-bold md:text-4xl text-amber-900">Our Clients</h3>
+          <div className="w-20 h-1 mx-auto mb-6 bg-amber-600"></div>
+          <p className="max-w-2xl mx-auto text-gray-700">
+            We are proud to serve a diverse clientele across various industries.
+          </p>
+        </div>
+        
+        {/* Carousel */}
+        <div className="relative my-12">
+          {/* Navigation buttons */}
+          <button 
+            onClick={goToPrevSlide}
+            className="absolute left-0 z-10 p-3 text-white transition transform -translate-y-1/2 rounded-full shadow-md top-1/2 bg-amber-600 hover:bg-amber-700"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft size={28} />
+          </button>
           
-          {/* Improved Carousel */}
-          <div className="relative my-12">
-            {/* Navigation buttons with visibility conditions */}
-            <button 
-              onClick={goToPrevSlide}
-              className={`absolute left-0 top-1/2 transform -translate-y-1/2 bg-amber-600 text-white p-3 rounded-full z-10 shadow-md hover:bg-amber-700 transition ${currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}`}
-              aria-label="Previous slide"
-              disabled={currentIndex === 0}
+          {/* Carousel container */}
+          <div className="overflow-hidden">
+            <div 
+              className="flex transition-transform duration-700 ease-in-out" 
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              <ChevronLeft size={28} />
-            </button>
-            
-            {/* Carousel container */}
-            <div className="overflow-hidden">
-              {/* Slides container */}
-              <div 
-                className="flex transition-transform duration-700 ease-in-out" 
-                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-              >
-                {/* Generate slides */}
-                {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-                  <div key={slideIndex} className="min-w-full flex-shrink-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                      {/* Generate cards for this slide */}
-                      {clientLogos
-                        .slice(slideIndex * logosPerSlide, (slideIndex + 1) * logosPerSlide)
-                        .map((logo, logoIndex) => {
-                          // Special handling for "see-more" card
-                          if (logo === "see-more") {
-                            return (
-                              <div key={logoIndex} className="p-4">
-                                <a 
-                                  href="/all-clients" 
-                                  className="block group h-40 bg-amber-50 shadow-lg border-2 border-amber-200 rounded-lg overflow-hidden"
-                                >
-                                  <div className="w-full h-full flex flex-col items-center justify-center p-8 transition-all duration-300 group-hover:bg-amber-100">
-                                    <span className="text-amber-900 font-bold text-xl mb-2">See More Clients</span>
-                                    <span className="text-amber-700 text-sm">View our complete client portfolio</span>
-                                  </div>
-                                </a>
-                              </div>
-                            );
-                          }
-                          
-                          // Regular client logo cards
-                          return (
-                            <div key={logoIndex} className="p-4">
-                              <div className="group h-40 bg-white shadow-lg border-2 border-amber-200 rounded-lg overflow-hidden">
-                                <div className="w-full h-full flex items-center justify-center p-8 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
-                                  <img 
-                                    src={`/images/${logo}.png`} 
-                                    alt={`Client ${logo}`}
-                                    className="max-h-full max-w-full object-contain" 
-                                  />
-                                </div>
-                              </div>
+              {Array.from({ length: totalSlides }).map((_, slideIndex) => (
+                <div key={slideIndex} className="flex-shrink-0 min-w-full">
+                  <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+                    {clientLogos
+                      .slice(slideIndex * logosPerSlide, (slideIndex + 1) * logosPerSlide)
+                      .map((logo, logoIndex) => (
+                        <div key={logoIndex} className="p-4">
+                          <div className="h-40 overflow-hidden bg-white border-2 rounded-lg shadow-lg group border-amber-200">
+                            <div className="flex items-center justify-center w-full h-full p-8 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                              <img 
+                                src={`/images/${logo}.png`} 
+                                alt={`Client ${logo}`}
+                                className="object-contain max-w-full max-h-full" 
+                              />
                             </div>
-                          );
-                        })}
-                    </div>
+                          </div>
+                        </div>
+                      ))}
                   </div>
-                ))}
-              </div>
-            </div>
-            
-            <button 
-              onClick={goToNextSlide}
-              className={`absolute right-0 top-1/2 transform -translate-y-1/2 bg-amber-600 text-white p-3 rounded-full z-10 shadow-md hover:bg-amber-700 transition ${currentIndex === totalSlides - 1 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}`}
-              aria-label="Next slide"
-              disabled={currentIndex === totalSlides - 1}
-            >
-              <ChevronRight size={28} />
-            </button>
-            
-            {/* Carousel indicators */}
-            <div className="flex justify-center gap-2 mt-10">
-              {Array.from({ length: totalSlides }).map((_, dotIndex) => (
-                <button
-                  key={dotIndex}
-                  className={`h-3 rounded-full transition-all ${
-                    currentIndex === dotIndex ? "w-8 bg-amber-600" : "w-3 bg-amber-300"
-                  }`}
-                  onClick={() => setCurrentIndex(dotIndex)}
-                  aria-label={`Go to slide ${dotIndex + 1}`}
-                />
+                </div>
               ))}
             </div>
           </div>
+          
+          <button 
+            onClick={goToNextSlide}
+            className="absolute right-0 z-10 p-3 text-white transition transform -translate-y-1/2 rounded-full shadow-md top-1/2 bg-amber-600 hover:bg-amber-700"
+            aria-label="Next slide"
+          >
+            <ChevronRight size={28} />
+          </button>
+          
+          {/* Carousel indicators */}
+          <div className="flex justify-center gap-2 mt-10">
+            {Array.from({ length: totalSlides }).map((_, dotIndex) => (
+              <button
+                key={dotIndex}
+                className={`h-3 rounded-full transition-all ${
+                  currentIndex === dotIndex ? "w-8 bg-amber-600" : "w-3 bg-amber-300"
+                }`}
+                onClick={() => setCurrentIndex(dotIndex)}
+                aria-label={`Go to slide ${dotIndex + 1}`}
+              />
+            ))}
+          </div>
         </div>
+
+        {/* "See More Clients" button */}
+        <div className="flex justify-center mt-8">
+          <a 
+            href="/all-clients" 
+            className="px-8 py-4 text-lg font-medium text-white transition-all duration-300 rounded-lg shadow-lg bg-amber-600 hover:bg-amber-700 hover:shadow-xl"
+          >
+            View All Our Clients
+          </a>
+        </div>
+      </div>
         
         {/* Case studies section */}
         <div className="mt-20">
-          <div className="text-center mb-10">
-            <h3 className="text-3xl md:text-4xl font-bold text-amber-900 mb-4">Case Studies</h3>
-            <div className="w-20 h-1 bg-amber-600 mx-auto mb-6"></div>
-            <p className="text-gray-700 max-w-2xl mx-auto">
+          <div className="mb-10 text-center">
+            <h3 className="mb-4 text-3xl font-bold md:text-4xl text-amber-900">Case Studies</h3>
+            <div className="w-20 h-1 mx-auto mb-6 bg-amber-600"></div>
+            <p className="max-w-2xl mx-auto text-gray-700">
               Examples of how our legal strategies have delivered successful outcomes for our clients.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {/* Replace with actual case studies */}
             {[1, 2].map((caseStudy) => (
               <div 
                 key={caseStudy} 
-                className="bg-white shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+                className="overflow-hidden transition-transform duration-300 bg-white shadow-md hover:scale-105 hover:shadow-lg"
               >
                 <div className="p-6">
-                  <h4 className="text-xl font-semibold text-amber-900 mb-3">International Acquisition Success</h4>
-                  <p className="text-amber-700 text-sm mb-4">Corporate Law • Cross-Border Transaction</p>
-                  <p className="text-gray-700 mb-4">
+                  <h4 className="mb-3 text-xl font-semibold text-amber-900">International Acquisition Success</h4>
+                  <p className="mb-4 text-sm text-amber-700">Corporate Law • Cross-Border Transaction</p>
+                  <p className="mb-4 text-gray-700">
                     Guided a technology client through a complex international acquisition, navigating regulatory challenges across multiple jurisdictions resulting in a successful $50M deal.
                   </p>
-                  <div className="border-t border-gray-200 pt-4 flex justify-between items-center">
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                     <div>
-                      <p className="text-gray-600 text-sm">
+                      <p className="text-sm text-gray-600">
                         <strong>Industry:</strong> Technology
                       </p>
-                      <p className="text-gray-600 text-sm">
+                      <p className="text-sm text-gray-600">
                         <strong>Result:</strong> Successful acquisition
                       </p>
                     </div>
-                    <button className="text-amber-700 hover:text-amber-900 text-sm font-medium">
+                    <button className="text-sm font-medium text-amber-700 hover:text-amber-900">
                       Read More
                     </button>
                   </div>
