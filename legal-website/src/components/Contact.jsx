@@ -1,6 +1,6 @@
 import { MapPin, Phone, Mail, Building } from 'lucide-react';
 import { useState } from 'react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -9,7 +9,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDtjOG_1z_hHrtPJ9-FRpM_8lI9m0OIduk",
   authDomain: "sgrrstorage.firebaseapp.com",
   projectId: "sgrrstorage",
-  storageBucket: "sgrrstorage.firebasestorage.app",
+  storageBucket: "sgrrstorage.appspot.com",
   messagingSenderId: "965180101640",
   appId: "1:965180101640:web:582decbf00c4d92df12dbd",
   measurementId: "G-774YQMMXM2"
@@ -78,25 +78,13 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitStatus({ type: '', message: '' });
     
-    console.log("Starting form submission...");
-    console.log("Form data:", formData);
-
     try {
-      console.log("Attempting to add document to Firestore...");
-      
       const formDataToSave = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        preferredOffice: formData.preferredOffice,
-        practiceArea: formData.practiceArea,
-        message: formData.message,
+        ...formData,
         submittedAt: new Date().toISOString() 
       };
       
-      const docRef = await addDoc(collection(db, "contactFormSubmissions"), formDataToSave);
-
-      console.log("Document written with ID: ", docRef.id);
+      await addDoc(collection(db, "contactFormSubmissions"), formDataToSave);
       
       setSubmitStatus({
         type: 'success',
@@ -113,10 +101,6 @@ const Contact = () => {
         message: ''
       });
     } catch (error) {
-      console.error("Error adding document: ", error);
-      console.error("Error code:", error.code);
-      console.error("Error message:", error.message);
-      
       let errorMessage = 'There was an error submitting your request. ';
       
       if (error.code === 'permission-denied') {
@@ -132,92 +116,114 @@ const Contact = () => {
         message: errorMessage
       });
     } finally {
-      console.log("Form submission process completed");
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section className="py-16 pt-32 bg-amber-800 text-amber-50">
+    <section className="py-16 pt-32 transition-colors duration-300 bg-amber-800 text-amber-50">
       <div className="container px-4 mx-auto">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Contact Us</h2>
-          <div className="w-20 h-1 mx-auto mb-6 bg-amber-200"></div>
-          <p className="max-w-2xl mx-auto">
+          <h2 className="mb-4 text-3xl font-bold transition-all duration-300 transform md:text-4xl hover:scale-105">
+            Contact Us
+          </h2>
+          <div className="w-20 h-1 mx-auto mb-6 transition-all duration-500 bg-amber-200 hover:w-24"></div>
+          <p className="max-w-2xl mx-auto transition-opacity duration-300 hover:opacity-90">
             Schedule a consultation with our legal team to discuss your needs and how we can assist you.
           </p>
         </div>
         
-        <div className="flex flex-col lg:flex-row">
-          <div className="w-full mb-8 lg:w-1/2 lg:mb-0">
-            <div className="h-full p-8 bg-amber-900">
-              <h3 className="mb-6 text-2xl font-semibold">Get in Touch</h3>
+        <div className="flex flex-col gap-8 lg:flex-row">
+          <div className="w-full mb-8 transition-all duration-500 lg:w-1/2 lg:mb-0 hover:shadow-xl">
+            <div className="h-full p-8 transition-all duration-300 rounded-lg bg-amber-900 hover:bg-amber-800/90">
+              <h3 className="mb-6 text-2xl font-semibold transition-colors duration-300 hover:text-amber-300">
+                Get in Touch
+              </h3>
               
               {/* Office tabs */}
-              <div className="flex flex-wrap mb-6 border-b border-amber-700">
+              <div className="flex flex-wrap mb-6 transition-all duration-300 border-b border-amber-700">
                 {offices.map((office, index) => (
                   <button 
                     key={index}
-                    className={`py-2 px-4 text-sm font-medium mr-2 ${
+                    className={`py-2 px-4 text-sm font-medium mr-2 transition-all duration-300 ${
                       activeOffice === index 
                         ? 'border-b-2 border-amber-300 text-amber-300' 
-                        : 'text-amber-100 hover:text-amber-200'
+                        : 'text-amber-100 hover:text-amber-200 hover:border-b-2 hover:border-amber-200/50'
                     }`}
                     onClick={() => setActiveOffice(index)}
                   >
                     {office.name}
-                    {office.isPrimary && <span className="px-1 ml-1 text-xs rounded bg-amber-300 text-amber-900">Main</span>}
+                    {office.isPrimary && (
+                      <span className="px-1 ml-1 text-xs transition-all duration-200 rounded bg-amber-300 text-amber-900 hover:bg-amber-200">
+                        Main
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>
               
               {/* Office address */}
               <div className="space-y-6">
-                <div className="flex items-start">
-                  <MapPin className="flex-shrink-0 mt-1 mr-4 text-amber-300" />
+                <div className="flex items-start transition-all duration-300 hover:translate-x-1">
+                  <MapPin className="flex-shrink-0 mt-1 mr-4 transition-transform duration-300 text-amber-300 hover:scale-110" />
                   <div>
-                    <p className="font-medium text-amber-200">{offices[activeOffice].name}</p>
-                    <p>{offices[activeOffice].address}</p>
-                    <p>{offices[activeOffice].city}</p>
-                    <p>{offices[activeOffice].state}</p>
+                    <p className="font-medium transition-colors duration-300 text-amber-200 hover:text-amber-100">
+                      {offices[activeOffice].name}
+                    </p>
+                    <p className="transition-colors duration-300 hover:text-amber-100">{offices[activeOffice].address}</p>
+                    <p className="transition-colors duration-300 hover:text-amber-100">{offices[activeOffice].city}</p>
+                    <p className="transition-colors duration-300 hover:text-amber-100">{offices[activeOffice].state}</p>
                   </div>
                 </div>
                 
                 {/* Contact numbers */}
-                <div className="flex items-start">
-                  <Phone className="flex-shrink-0 mt-1 mr-4 text-amber-300" />
+                <div className="flex items-start transition-all duration-300 hover:translate-x-1">
+                  <Phone className="flex-shrink-0 mt-1 mr-4 transition-transform duration-300 text-amber-300 hover:scale-110" />
                   <div>
-                    <p className="font-medium text-amber-200">Mobile</p>
+                    <p className="font-medium transition-colors duration-300 text-amber-200 hover:text-amber-100">
+                      Mobile
+                    </p>
                     {contactInfo.mobile.map((number, index) => (
-                      <p key={index}>{number}</p>
+                      <p 
+                        key={index}
+                        className="transition-colors duration-300 hover:text-amber-100"
+                      >
+                        {number}
+                      </p>
                     ))}
-                    <p className="mt-2 font-medium text-amber-200">Landline</p>
-                    <p>{contactInfo.landline}</p>
+                    <p className="mt-2 font-medium transition-colors duration-300 text-amber-200 hover:text-amber-100">
+                      Landline
+                    </p>
+                    <p className="transition-colors duration-300 hover:text-amber-100">{contactInfo.landline}</p>
                   </div>
                 </div>
                 
                 {/* Email */}
-                <div className="flex items-start">
-                  <Mail className="flex-shrink-0 mt-1 mr-4 text-amber-300" />
+                <div className="flex items-start transition-all duration-300 hover:translate-x-1">
+                  <Mail className="flex-shrink-0 mt-1 mr-4 transition-transform duration-300 text-amber-300 hover:scale-110" />
                   <div>
-                    <p className="font-medium text-amber-200">Email</p>
-                    <p>{contactInfo.email}</p>
+                    <p className="font-medium transition-colors duration-300 text-amber-200 hover:text-amber-100">
+                      Email
+                    </p>
+                    <p className="transition-colors duration-300 hover:text-amber-100">{contactInfo.email}</p>
                   </div>
                 </div>
               </div>
               
-              <div className="mt-8">
-                <h4 className="mb-4 text-lg font-semibold">Office Hours</h4>
+              <div className="mt-8 transition-opacity duration-300 hover:opacity-90">
+                <h4 className="mb-4 text-lg font-semibold transition-colors duration-300 hover:text-amber-200">
+                  Office Hours
+                </h4>
                 <ul className="space-y-1">
-                  <li className="flex">
+                  <li className="flex transition-colors duration-300 hover:text-amber-100">
                     <span className="w-32">Monday - Friday:</span>
                     <span>9:00 AM - 6:00 PM</span>
                   </li>
-                  <li className="flex">
+                  <li className="flex transition-colors duration-300 hover:text-amber-100">
                     <span className="w-32">Saturday:</span>
                     <span>By appointment only</span>
                   </li>
-                  <li className="flex">
+                  <li className="flex transition-colors duration-300 hover:text-amber-100">
                     <span className="w-32">Sunday:</span>
                     <span>Closed</span>
                   </li>
@@ -225,14 +231,23 @@ const Contact = () => {
               </div>
 
               {/* Map section */}
-              <div className="mt-8">
-                <h4 className="mb-4 text-lg font-semibold">Office Location</h4>
-                <div className="w-full h-64 overflow-hidden rounded-md bg-amber-200">
-                  <div className="flex items-center justify-center w-full h-full bg-amber-200 text-amber-900">
+              <div className="mt-8 transition-all duration-500 hover:scale-[1.01]">
+                <h4 className="mb-4 text-lg font-semibold transition-colors duration-300 hover:text-amber-200">
+                  Office Location
+                </h4>
+                <div className="w-full h-64 overflow-hidden transition-all duration-500 rounded-md bg-amber-200 hover:shadow-lg">
+                  <div className="flex items-center justify-center w-full h-full transition-colors duration-300 bg-amber-200 text-amber-900 hover:bg-amber-300">
                     <div className="text-center">
-                      <Building size={40} className="mx-auto mb-2" />
-                      <p className="font-medium">Map for {offices[activeOffice].name}</p>
-                      <p className="text-sm text-amber-700">Interactive map will be displayed here</p>
+                      <Building 
+                        size={40} 
+                        className="mx-auto mb-2 transition-transform duration-500 hover:scale-110" 
+                      />
+                      <p className="font-medium transition-colors duration-300 hover:text-amber-800">
+                        Map for {offices[activeOffice].name}
+                      </p>
+                      <p className="text-sm transition-colors duration-300 text-amber-700 hover:text-amber-800">
+                        Interactive map will be displayed here
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -240,16 +255,18 @@ const Contact = () => {
             </div>
           </div>
           
-          <div className="w-full lg:w-1/2 lg:pl-8">
+          <div className="w-full transition-all duration-500 lg:w-1/2 hover:shadow-xl">
             <form 
-              className="p-8 text-gray-800 bg-white rounded-md shadow-lg"
+              className="p-8 text-gray-800 transition-all duration-500 bg-white rounded-md shadow-lg hover:shadow-2xl"
               onSubmit={handleSubmit}
             >
-              <h3 className="mb-6 text-2xl font-semibold text-amber-900">Request a Consultation</h3>
+              <h3 className="mb-6 text-2xl font-semibold transition-colors duration-300 text-amber-900 hover:text-amber-700">
+                Request a Consultation
+              </h3>
               
               {/* Status messages */}
               {submitStatus.message && (
-                <div className={`p-4 mb-6 rounded ${
+                <div className={`p-4 mb-6 rounded transition-all duration-500 ${
                   submitStatus.type === 'success' 
                     ? 'bg-green-100 text-green-800' 
                     : 'bg-red-100 text-red-800'
@@ -258,14 +275,14 @@ const Contact = () => {
                 </div>
               )}
               
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="name">
+              <div className="mb-4 transition-all duration-300">
+                <label className="block mb-2 text-sm font-medium text-gray-700 transition-colors duration-300 hover:text-gray-900" htmlFor="name">
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="name"
                   type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-4 py-2 transition-all duration-300 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 hover:border-amber-400"
                   placeholder="John Doe"
                   required
                   value={formData.name}
@@ -273,14 +290,14 @@ const Contact = () => {
                 />
               </div>
               
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="email">
+              <div className="mb-4 transition-all duration-300">
+                <label className="block mb-2 text-sm font-medium text-gray-700 transition-colors duration-300 hover:text-gray-900" htmlFor="email">
                   Email Address <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="email"
                   type="email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-4 py-2 transition-all duration-300 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 hover:border-amber-400"
                   placeholder="john@example.com"
                   required
                   value={formData.email}
@@ -288,14 +305,14 @@ const Contact = () => {
                 />
               </div>
               
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="phone">
+              <div className="mb-4 transition-all duration-300">
+                <label className="block mb-2 text-sm font-medium text-gray-700 transition-colors duration-300 hover:text-gray-900" htmlFor="phone">
                   Phone Number <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="phone"
                   type="tel"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-4 py-2 transition-all duration-300 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 hover:border-amber-400"
                   placeholder="Your phone number"
                   required
                   value={formData.phone}
@@ -303,13 +320,13 @@ const Contact = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="preferredOffice">
+              <div className="mb-4 transition-all duration-300">
+                <label className="block mb-2 text-sm font-medium text-gray-700 transition-colors duration-300 hover:text-gray-900" htmlFor="preferredOffice">
                   Preferred Office
                 </label>
                 <select 
                   id="preferredOffice"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-4 py-2 transition-all duration-300 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 hover:border-amber-400"
                   value={formData.preferredOffice}
                   onChange={handleInputChange}
                 >
@@ -324,13 +341,13 @@ const Contact = () => {
                 </select>
               </div>
 
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="practiceArea">
+              <div className="mb-4 transition-all duration-300">
+                <label className="block mb-2 text-sm font-medium text-gray-700 transition-colors duration-300 hover:text-gray-900" htmlFor="practiceArea">
                   Practice Area <span className="text-red-500">*</span>
                 </label>
                 <select 
                   id="practiceArea"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-4 py-2 transition-all duration-300 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 hover:border-amber-400"
                   required
                   value={formData.practiceArea}
                   onChange={handleInputChange}
@@ -346,13 +363,13 @@ const Contact = () => {
                 </select>
               </div>
               
-              <div className="mb-6">
-                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="message">
+              <div className="mb-6 transition-all duration-300">
+                <label className="block mb-2 text-sm font-medium text-gray-700 transition-colors duration-300 hover:text-gray-900" htmlFor="message">
                   How can we help you? <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   id="message"
-                  className="w-full h-32 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full h-32 px-4 py-2 transition-all duration-300 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 hover:border-amber-400"
                   placeholder="Please describe your legal needs"
                   required
                   value={formData.message}
@@ -362,13 +379,27 @@ const Contact = () => {
               
               <button
                 type="submit"
-                className="w-full py-3 font-medium transition-colors rounded-md bg-amber-800 text-amber-50 hover:bg-amber-700 disabled:bg-amber-400"
+                className={`w-full py-3 font-medium transition-all duration-300 rounded-md ${
+                  isSubmitting 
+                    ? 'bg-amber-400 cursor-not-allowed' 
+                    : 'bg-amber-800 hover:bg-amber-700 hover:shadow-md'
+                } text-amber-50`}
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Submitting...' : 'Submit Request'}
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </span>
+                ) : (
+                  'Submit Request'
+                )}
               </button>
               
-              <p className="mt-4 text-xs text-center text-gray-500">
+              <p className="mt-4 text-xs text-center text-gray-500 transition-colors duration-300 hover:text-gray-700">
                 Fields marked with <span className="text-red-500">*</span> are required
               </p>
             </form>

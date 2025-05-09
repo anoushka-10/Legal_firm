@@ -25,14 +25,15 @@ const Navbar = () => {
     { title: "Home", path: "/" },
     { title: "About", path: "/about" },
     { title: "Expertise", path: "/expertise" },
+    { title: "Our Team", path: "/ourteam" },
     { title: "Clients", path: "/all-clients" },
     { title: "Contact", path: "/contact" }
   ];
 
   return (
-<nav className="fixed w-full z-50 bg-amber-50 shadow-md py-3 transition-all duration-300">
-<div className="container mx-auto px-4">
-        <div className="flex justify-between items-center">
+<nav className="fixed z-50 w-full py-3 transition-all duration-300 shadow-md bg-amber-50">
+<div className="container px-4 mx-auto">
+        <div className="flex items-center justify-between">
           <div className="flex items-center">
             <NavLink to="/" className="text-2xl font-bold text-amber-900">
               <span className="text-yellow-600">SGRR </span>
@@ -65,7 +66,7 @@ const Navbar = () => {
           <div className="hidden md:block">
             <NavLink
               to="/contact"
-              className="bg-amber-800 text-amber-50 px-6 py-2 rounded-sm hover:bg-amber-700 transition-colors"
+              className="px-6 py-2 transition-colors rounded-sm bg-amber-800 text-amber-50 hover:bg-amber-700"
             >
               Request Consultation
             </NavLink>
@@ -85,8 +86,8 @@ const Navbar = () => {
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-amber-50 shadow-lg">
-          <div className="container mx-auto px-4 py-4">
+        <div className="shadow-lg md:hidden bg-amber-50">
+          <div className="container px-4 py-4 mx-auto">
             <ul className="space-y-4">
               {navLinks.map((link) => (
                 <li key={link.path}>
@@ -106,7 +107,7 @@ const Navbar = () => {
               <li>
                 <NavLink
                   to="/contact"
-                  className="block bg-amber-800 text-amber-50 px-4 py-2 text-center rounded-sm hover:bg-amber-700 transition-colors"
+                  className="block px-4 py-2 text-center transition-colors rounded-sm bg-amber-800 text-amber-50 hover:bg-amber-700"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Request Consultation

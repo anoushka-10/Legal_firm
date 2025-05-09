@@ -97,41 +97,106 @@ const Expertise = () => {
 
   return (
     <section className="py-20 bg-amber-50">
-      <div className="container mx-auto px-4">
-        {/* Section Title */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-800">Areas of Expertise</h2>
-          <div className="w-16 h-1 bg-yellow-600 mx-auto mt-3"></div>
-          <p className="text-gray-600 mt-4 max-w-xl mx-auto">
+      <div className="container px-4 mx-auto">
+        {/* Section Title with animations */}
+        <div className="mb-12 text-center animate-fadeIn">
+          <h2 className="text-4xl font-bold text-gray-800 transition-all duration-300 hover:text-gray-900">
+            Areas of Expertise
+          </h2>
+          <div className="w-16 h-1 mx-auto mt-3 origin-center bg-yellow-600 animate-scaleX"></div>
+          <p className="max-w-xl mx-auto mt-4 text-gray-600 transition-all duration-500 hover:text-gray-800">
             We provide specialized legal counsel across a broad spectrum of practice areas.
           </p>
         </div>
 
-        {/* Expertise Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {/* Expertise Cards with staggered animations */}
+        <div className="grid grid-cols-1 gap-6 mb-12 sm:grid-cols-2 lg:grid-cols-3">
           {expertiseAreas
             .slice(0, showAll ? expertiseAreas.length : 6)
             .map((area, index) => (
               <div
                 key={index}
-                className="p-6 bg-amber-50 bg-gray-50 rounded-xl shadow hover:shadow-md transition h-full flex flex-col justify-start"
+                className={`p-6 bg-white rounded-xl shadow hover:shadow-lg transition-all duration-300 h-full flex flex-col justify-start 
+                  border-l-4 border-yellow-500 hover:border-yellow-600 hover:-translate-y-1
+                  animate-fadeInUp delay-${Math.min(index, 5) * 100}`}
               >
-                <div className="text-yellow-600 mb-3">{area.icon}</div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-1">{area.title}</h3>
-                <p className="text-sm text-gray-600">{area.description}</p>
+                <div className="mb-3 text-yellow-600 transition-transform duration-300 hover:scale-110">
+                  {area.icon}
+                </div>
+                <h3 className="mb-1 text-lg font-semibold text-gray-800 transition-colors duration-300 hover:text-yellow-700">
+                  {area.title}
+                </h3>
+                <p className="text-sm text-gray-600 transition-colors duration-300 hover:text-gray-800">
+                  {area.description}
+                </p>
               </div>
             ))}
         </div>
 
-        {/* Show More / Show Less Button */}
-        <div className="text-center">
+        {/* Show More/Less Button with animation */}
+        <div className="text-center delay-700 animate-fadeIn">
           <button
             onClick={() => setShowAll(prev => !prev)}
-            className="px-6 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition"
+            className="px-6 py-3 text-white transition-all duration-300 bg-yellow-600 rounded-md shadow-md hover:bg-yellow-700 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
           >
             {showAll ? "Show Less" : "Show More Practice Areas"}
           </button>
         </div>
+
+        {/* Animation styles */}
+        <style jsx global>{`
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          @keyframes scaleX {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+          }
+          @keyframes fadeInUp {
+            from { 
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to { 
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+          }
+          .animate-scaleX {
+            animation: scaleX 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+          }
+          .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out forwards;
+          }
+          .delay-0 {
+            animation-delay: 0ms;
+          }
+          .delay-100 {
+            animation-delay: 100ms;
+          }
+          .delay-200 {
+            animation-delay: 200ms;
+          }
+          .delay-300 {
+            animation-delay: 300ms;
+          }
+          .delay-400 {
+            animation-delay: 400ms;
+          }
+          .delay-500 {
+            animation-delay: 500ms;
+          }
+          .delay-600 {
+            animation-delay: 600ms;
+          }
+          .delay-700 {
+            animation-delay: 700ms;
+          }
+        `}</style>
       </div>
     </section>
   );
