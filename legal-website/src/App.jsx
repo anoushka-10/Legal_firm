@@ -17,7 +17,7 @@ function App() {
       <div className="min-h-screen font-sans text-gray-800 bg-amber-50">
         <Navbar />
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="*" element={<LandingPage />} />
           {/* Optional: Still keep these for direct navigation */}
           <Route path="/about" element={<About />} />
           <Route path="/expertise" element={<Expertise />} />
