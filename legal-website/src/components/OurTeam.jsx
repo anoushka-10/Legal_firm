@@ -7,59 +7,119 @@ const OurTeam = () => {
   const partners = [
     {
       id: 1,
-      name: 'Partner 1',
-      position: 'Managing Partner',
+      name: 'Rahul Raj Pathak (Advocate)',
+      position: 'Founder',
       bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       email: 'partner1@example.com',
-      phone: '+91 9999999999',
+      phone: '+91 8130309204',
       location: 'Ghaziabad',
       linkedin: '#',
-      image: '/images/team1.jpg'
+      image: '/images/partner1.png'
     },
     {
       id: 2,
-      name: 'Partner 2',
-      position: 'Senior Partner',
+      name: 'Prasoon Lata (Advocate)',
+      position: 'Co-Founder',
       bio: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       email: 'partner2@example.com',
       phone: '+91 9999999999',
       location: 'New Delhi',
       linkedin: '#',
-      image: '/images/team2.jpg'
+      image: '/images/partner2.png'
     }
   ];
 
   const associates = [
     {
       id: 3,
-      name: 'Associate 1',
-      position: 'Senior Associate',
-      email: 'associate1@example.com',
-      phone: '+91 9999999999',
-      location: 'Noida',
-      linkedin: '#',
-      expertise: 'Corporate Law, Contracts'
+      name: 'Sarvesh Yadav',
+      position: 'Sr. Legal Manager',
     },
     {
       id: 4,
-      name: 'Associate 2',
-      position: 'Junior Associate',
-      email: 'associate2@example.com',
-      phone: '+91 9999999999',
-      location: 'Ghaziabad',
-      linkedin: '#',
-      expertise: 'Litigation, Dispute Resolution'
+      name: 'Yashodha',
+      position: 'Legal Manager'
     },
     {
       id: 5,
-      name: 'Associate 3',
-      position: 'Associate',
-      email: 'associate3@example.com',
-      phone: '+91 9999999999',
-      location: 'New Delhi',
-      linkedin: '#',
-      expertise: 'Intellectual Property'
-    }
+      name: 'Shivani',
+      position: 'Legal Executive'
+    },
+    {
+      id: 6,
+      name: 'Kunal',
+      position: 'Legal Executive'
+    },
+    {
+      id: 7,
+      name: 'Anjali',
+      position: 'Accounts Dept.'
+    },
+    {
+      id: 8,
+      name: 'Amit',
+      position: 'Legal Executive'
+    },
+    {
+      id: 9,
+      name: 'Varun Shukla',
+      position: 'Transaction Head'
+    },
+    {
+      id: 10,
+      name: 'Adarsh Shukla',
+      position: 'ODV/PDD'
+    },
+    {
+      id: 11,
+      name: 'Harpal',
+      position: 'Field Executive'
+    },
+    {
+      id: 12,
+      name: 'Rohit Kumar',
+      position: 'Field Executive'
+    },
+    {
+      id: 13,
+      name: 'Jitender',
+      position: 'Back office'
+    },
+    {
+      id: 14,
+      name: 'Akhilesh Chaudhady',
+      position: 'Field Executive'
+    },
+    {
+      id: 15,
+      name: 'Lucky',
+      position: 'Field Executive'
+    },
+    {
+      id: 16,
+      name: 'Suryavansi',
+      position: 'Field Executive'
+    },
+    {
+      id: 17,
+      name: 'Krishna',
+      position: 'Field Executive'
+    },
+    {
+      id: 18,
+      name: 'Rudal',
+      position: 'Field Executive'
+    },
+    {
+      id: 19,
+      name: 'Prince',
+      position: 'Field Executive'
+    },
+    {
+      id: 20,
+      name: 'Shiva-Meerut',
+      position: 'Field Executive'
+    },
   ];
 
   return (
@@ -162,28 +222,7 @@ const OurTeam = () => {
                     {associate.expertise}
                   </p>
                 )}
-                <div className="space-y-2 text-sm text-gray-600">
-                  <div className="flex items-center transition-colors duration-300 hover:text-amber-700">
-                    <MapPin className="w-4 h-4 mr-2 text-amber-600" />
-                    <span>{associate.location}</span>
-                  </div>
-                  <div className="flex items-center transition-colors duration-300 hover:text-amber-700">
-                    <Mail className="w-4 h-4 mr-2 text-amber-600" />
-                    <a href={`mailto:${associate.email}`}>{associate.email}</a>
-                  </div>
-                  <div className="flex items-center transition-colors duration-300 hover:text-amber-700">
-                    <Phone className="w-4 h-4 mr-2 text-amber-600" />
-                    <a href={`tel:${associate.phone}`}>{associate.phone}</a>
-                  </div>
-                  {associate.linkedin && (
-                    <div className="flex items-center transition-colors duration-300 hover:text-amber-700">
-                      <Linkedin className="w-4 h-4 mr-2 text-amber-600" />
-                      <a href={associate.linkedin} target="_blank" rel="noopener noreferrer">
-                        LinkedIn Profile
-                      </a>
-                    </div>
-                  )}
-                </div>
+                
               </div>
             ))}
           </div>
