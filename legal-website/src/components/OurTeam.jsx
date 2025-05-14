@@ -9,8 +9,8 @@ const OurTeam = () => {
       id: 1,
       name: 'Rahul Raj Pathak (Advocate)',
       position: 'Founder',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      email: 'partner1@example.com',
+      bio: '',
+      email: 'advrahulpathak@gmail.com',
       phone: '+91 8130309204',
       location: 'Ghaziabad',
       linkedin: '#',
@@ -20,7 +20,7 @@ const OurTeam = () => {
       id: 2,
       name: 'Prasoon Lata (Advocate)',
       position: 'Co-Founder',
-      bio: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      bio: '',
       email: 'partner2@example.com',
       phone: '+91 9999999999',
       location: 'New Delhi',
@@ -149,7 +149,7 @@ const OurTeam = () => {
                 <img
                   src={partner.image}
                   alt={partner.name}
-                  className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                  className="object-contain w-full h-full transition-transform duration-700 group-hover:scale-110"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.parentNode.innerHTML = `
